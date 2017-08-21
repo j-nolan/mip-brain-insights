@@ -29,7 +29,7 @@
   BrainBrowser.config.set("color_maps", [
     {
       name: "Spectral",
-      url: "color-maps/spectral-brainview.txt",
+      url: "color-maps/spectral-brain-view.txt",
       cursor_color: "#FFFFFF"
     },
     {
