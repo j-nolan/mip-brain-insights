@@ -466,7 +466,7 @@
           keys[key]();
 
           panel.updated = true;
-          volume.display.forEach(function(other_panel) {
+          volume.display && volume.display.forEach(function(other_panel) {
             if (panel !== other_panel) {
               other_panel.updateSlice();
             }
@@ -516,7 +516,7 @@
           // CTRL key
           17: function() {
             viewer.volumes.forEach(function(volume) {
-              volume.display.forEach(function(panel) {
+              volume.display && volume.display.forEach(function(panel) {
                 panel.anchor = null;
               });
             });

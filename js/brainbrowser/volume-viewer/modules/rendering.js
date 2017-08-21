@@ -40,7 +40,7 @@ BrainBrowser.VolumeViewer.modules.rendering = function(viewer) {
   viewer.draw = function() {
 
     viewer.volumes.forEach(function(volume) {
-      volume.display.forEach(function(panel) {
+      volume.display && volume.display.forEach(function(panel) {
         panel.draw(
           volume.color_map.cursor_color,
           viewer.active_panel === panel
@@ -83,7 +83,7 @@ BrainBrowser.VolumeViewer.modules.rendering = function(viewer) {
   viewer.redrawVolume = function(vol_id) {
     var volume = viewer.volumes[vol_id];
 
-    volume.display.forEach(function(panel) {
+    volume.display && volume.display.forEach(function(panel) {
       panel.updateSlice();
     });
   };
@@ -117,7 +117,7 @@ BrainBrowser.VolumeViewer.modules.rendering = function(viewer) {
   viewer.resetDisplays = function() {
 
     viewer.volumes.forEach(function(volume) {
-      volume.display.forEach(function(panel) {
+      volume.display && volume.display.forEach(function(panel) {
         panel.reset();
       });
     });
@@ -144,7 +144,7 @@ BrainBrowser.VolumeViewer.modules.rendering = function(viewer) {
   */
   viewer.setPanelSize = function(width, height, options) {
     viewer.volumes.forEach(function(volume) {
-      volume.display.forEach(function(panel) {
+      volume.display && volume.display.forEach(function(panel) {
         panel.setSize(width, height, options);
       });
     });
