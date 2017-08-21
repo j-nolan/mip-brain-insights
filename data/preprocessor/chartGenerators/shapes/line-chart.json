@@ -1,0 +1,40 @@
+{
+  "type": "highcharts",
+  "data": {  
+    "chart": {  
+       "type": "areaspline"
+    },
+    "title": {  
+       "text": ""
+    },
+    "xAxis": {  
+       "categories": [
+
+       ],
+       "title": {
+         "text": "time"
+       }
+    },
+    "yAxis": {  
+       "title": {  
+          "text":"y (TBD)"
+       },
+       "max": 100
+    },
+    "tooltip": {  
+       "shared":true,
+       "valueSuffix":" units"
+    },
+    "credits": {  
+       "enabled":false
+    },
+    "plotOptions": {  
+       "areaspline":{  
+          "fillOpacity":0.5
+       }
+    },
+    "series": [
+    
+    ]
+ }       
+}

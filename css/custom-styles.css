@@ -1,0 +1,23 @@
+body {
+  font-family: 'Open Sans', sans-serif;
+  width: 1000px;
+  margin: auto;
+  margin-top: 170px;
+}
+#brainbrowser-wrapper {
+  float: left;
+  width: 48%;
+}
+
+#visualizations-wrapper {
+  float: right;
+  width: 48%;
+}
+
+.clear {
+  clear: both;
+}
+
+#brainbrowser-wrapper {
+  margin: 0;
+}
