@@ -65,7 +65,7 @@
 
     // Load visualization per brain region
     var visualizationsPerRegion
-    ajax('data/visualizations-per-region.json', function(response) {
+    ajax('data/preprocessed/visualizations-per-region.json', function(response) {
       visualizationsPerRegion = JSON.parse(response)
     })
 
