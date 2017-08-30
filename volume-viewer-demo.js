@@ -617,7 +617,7 @@ $(function() {
     ////////////////////////////////////////
     // Set the size of slice display panels.
     ////////////////////////////////////////
-    viewer.setDefaultPanelSize(256, 256);
+    viewer.setDefaultPanelSize(150, 150);
 
     ///////////////////
     // Start rendering.

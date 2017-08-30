@@ -35,14 +35,10 @@
   border-radius: 10px;
 }
 
-
-.volume-container {
-  display: table-cell;
-}
-
 canvas.slice-display {
   display: block;
-  margin: 3px 5px;
+  margin: 10px 10px;
+  float: left;
 }
 
 .volume-viewer-controls {
