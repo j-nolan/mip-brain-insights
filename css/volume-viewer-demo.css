@@ -30,15 +30,24 @@
 
 #volume-viewer {
   display: inline-block;
-  background-color: #FFFFFF;
-  padding: 0.5em;
-  border-radius: 10px;
+}
+
+.volume-container {
+  border-bottom: 1px solid lightgrey;
+  padding-bottom: 25px;
+  margin-bottom: 25px;
+}
+.volume-container:last-child {
+  border-bottom: 0;
 }
 
 canvas.slice-display {
   display: block;
-  margin: 10px 10px;
+  margin-right: 20px;
   float: left;
+}
+canvas.slice-display:last-child {
+  margin-right: 0;
 }
 
 .volume-viewer-controls {
