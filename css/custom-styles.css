@@ -1,12 +1,16 @@
 body {
   font-family: 'Open Sans', sans-serif;
-  width: 1000px;
+  width: 80%;
   margin: auto;
   margin-top: 170px;
 }
 #brainbrowser-wrapper {
   float: left;
   width: 48%;
+}
+
+#volume-viewer {
+  padding: 0;
 }
 
 #visualizations-wrapper {

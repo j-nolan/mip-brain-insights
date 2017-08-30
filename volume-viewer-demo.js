@@ -42,18 +42,8 @@ $(function() {
     ///////////////////////////
     // Set up global UI hooks.
     ///////////////////////////
-    $("#sync-volumes-wrapper").show();
-
-    // Should cursors in all panels be synchronized?
-    $("#sync-volumes").change(function() {
-      var synced = $(this).is(":checked");
-      if (synced) {
-        viewer.resetDisplays();
-        viewer.redrawVolumes();
-      }
-
-      viewer.synced = synced;
-    });
+    
+    viewer.synced = true;
 
     /**
      * @doc function
@@ -646,17 +636,19 @@ $(function() {
             element_id: "volume-ui-template",
             viewer_insert_class: "volume-viewer-display"
           }
+        },
+        {
+          type: 'nifti1',
+          nii_url: "models/labels_Neuromorphometrics.nii",
+          template: {
+            element_id: "volume-ui-template",
+            viewer_insert_class: "volume-viewer-display"
+          }
         }
       ],
-      overlay: {
-        template: {
-          element_id: "overlay-ui-template",
-          viewer_insert_class: "overlay-viewer-display"
-        }
-      },
       complete: function() {
         loading_div.hide();
-        $("#brainbrowser-wrapper").slideDown({duration: 600});
+        $("#brainbrowser-wrapper").slideDown({ duration: 600 });
       }
     });
 
