@@ -56,44 +56,44 @@
     }
   }
 
-  document.addEventListener('DOMContentLoaded', function() {
-
+  function onSliceUpdate(e) {
     var destNode = document.getElementById('visualizations')
     if (!destNode) {
       throw new Error('No DOM element found with ID visualizations')
     }
 
-    // Load visualization per brain region
-    var visualizationsPerRegion
-    ajax('data/preprocessed/visualizations-per-region.json', function(response) {
-      visualizationsPerRegion = JSON.parse(response)
-    })
+    if (e.volume !== viewer.volumes[0]) {
+      console.info('Skipping sliceupdate that hasn\'t been performed on first volume (atlas]')
+      return
+    }
+    if (!visualizationsPerRegion) {
+      // visualizations data might be loading, there might have been an error, but they
+      // are not there so we do not do anything yet
+      return
+    }
+    // When displaying atlases, we assign the same "intensity value"
+    // to each region, so that they are voxels from the same region have
+    // the same color. This allows the user to visually see the separation between
+    // different regions of the brain
+    // By convention, we use that value as the region id
+    var regionId = Math.floor(e.volume.getIntensityValue())
 
-    // Listen everytime the user moves position
-    viewer.addEventListener('sliceupdate', function(e) {
-      if (e.volume !== viewer.volumes[0]) {
-        console.info('Skipping sliceupdate that hasn\'t been performed on first volume (atlas]')
-        return
-      }
-      if (!visualizationsPerRegion) {
-        // visualizations data might be loading, there might have been an error, but they
-        // are not there so we do not do anything yet
-        return
-      }
-      // When displaying atlases, we assign the same "intensity value"
-      // to each region, so that they are voxels from the same region have
-      // the same color. This allows the user to visually see the separation between
-      // different regions of the brain
-      // By convention, we use that value as the region id
-      var regionId = Math.floor(e.volume.getIntensityValue())
+    var visualizations = visualizationsPerRegion[regionId]
+    if (!visualizations) {
+      console.info('No visualization data found for region identified by id', regionId)
+      visualizations = []
+    }
 
-      var visualizations = visualizationsPerRegion[regionId]
-      if (!visualizations) {
-        console.info('No visualization data found for region identified by id', regionId)
-        visualizations = []
-      }
+    updateVisualizations(destNode, visualizations)
+  }
 
-      updateVisualizations(destNode, visualizations)
-    })
+  // Load visualization per brain region
+  var visualizationsPerRegion
+  ajax('data/preprocessed/visualizations-per-region.json', function(response) {
+    visualizationsPerRegion = JSON.parse(response)
+  })
+
+  document.addEventListener('DOMContentLoaded', function() {
+    viewer.addEventListener('sliceupdate', onSliceUpdate)
   })
 })()
