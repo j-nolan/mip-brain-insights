@@ -5,12 +5,8 @@ import './src/volume-viewer/modules/rendering.js'
 import './src/volume-viewer/volume-loaders/nifti1.js'
 
 export default class extends Component {
-  loadVolumes() {
-    window.BrainBrowser.VolumeViewer.start('volume-ui-template', function(viewer) {
-      // Add an event listener.
-      viewer.addEventListener('volumesloaded', function() {
-        console.log('Viewer is ready!')
-      })
+  loadVolumes = () => {
+    window.BrainBrowser.VolumeViewer.start('volume-ui-template', viewer => {
 
       // Load the default color map.
       // (Second argument is the cursor color to use).
@@ -24,23 +20,23 @@ export default class extends Component {
 
       // Load volumes.
       viewer.loadVolumes({
-        volumes: [
-          {
-            type: 'nifti1',
-            nii_url: "models/labels_Neuromorphometrics.nii",
-            template: {
-              element_id: "volume-ui-template",
-              viewer_insert_class: "volume-viewer-display"
-            }
+        volumes: this.props.volumes.map(volume => ({
+          ...volume,
+          template: {
+            element_id: "volume-ui-template",
+            viewer_insert_class: "volume-viewer-display"
           }
-        ]
+        }))
       })
+
+      // Keep a reference for later access
+      this.viewer = viewer
     })
   }
   render() {
     return (
       // Structure required by Brain Browser
-      <div ref={() => this.loadVolumes()} id="volume-ui-template">
+      <div ref={this.loadVolumes} id="volume-ui-template">
         <div className="volume-viewer-display" />
       </div>
     )
