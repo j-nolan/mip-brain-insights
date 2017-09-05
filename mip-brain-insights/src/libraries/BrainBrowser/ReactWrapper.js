@@ -29,6 +29,11 @@ export default class extends Component {
         }))
       })
 
+      // Add slice update listener if a callback was provided
+      if (this.props.onSliceUpdate) {
+        viewer.addEventListener('sliceupdate', this.props.onSliceUpdate)
+      }
+
       // Keep a reference for later access
       this.viewer = viewer
     })

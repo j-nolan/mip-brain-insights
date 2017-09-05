@@ -63,10 +63,13 @@ class App extends Component {
         </section>
         <div className="cleared">
           <div className="float-left">
-            <BrainBrowser volumes={[{
-              type: 'nifti1',
-              nii_url: "models/labels_Neuromorphometrics.nii",
-            }]} />
+            <BrainBrowser
+              volumes={[{
+                type: 'nifti1',
+                nii_url: "models/labels_Neuromorphometrics.nii",
+              }]}
+              onSliceUpdate={console.log}
+            />
           </div>
           <div className="float-right">
             <ReactHighcharts config={hc_config} />
