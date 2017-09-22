@@ -23,6 +23,14 @@ h2 {
   float: right;
 }
 
+.col-1-4 {
+  width: 24%;
+}
+
+.col-3-4 {
+  width: 74%;
+}
+
 .emphasized-note {
   padding: 2em;
   background-color: #F4F4F4;

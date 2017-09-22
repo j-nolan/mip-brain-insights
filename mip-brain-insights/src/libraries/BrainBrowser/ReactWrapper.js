@@ -12,9 +12,6 @@ export default class extends Component {
       // (Second argument is the cursor color to use).
       viewer.loadDefaultColorMapFromURL('color-maps/spectral-brain-view.txt', '#FF0000')
 
-      // Set the size of slice display panels.
-      viewer.setPanelSize(256, 256)
-
       // Start rendering.
       viewer.render()
 
@@ -38,6 +35,11 @@ export default class extends Component {
       this.viewer = viewer
     })
   }
+
+  componentWillUnmount() {
+    this.viewer.removeEventListener('sliceupdate', this.props.onSliceUpdate)
+  }
+
   render() {
     return (
       // Structure required by Brain Browser

@@ -3,6 +3,9 @@ import ReactHighcharts from 'react-highcharts'
 import BrainBrowser from './libraries/BrainBrowser/index.js'
 import './App.css'
 
+// The endpoint that will be queried to access the available files
+const AVAILABLE_FILES_ENDPOINT = 'data/available-files.json'
+
 const hc_config = {
   title: {
     text: 'Solar Employment Growth by Sector, 2010-2016',
@@ -50,7 +53,57 @@ const hc_config = {
 }
 
 class App extends Component {
+  state = {
+    files: [],
+    filesRequestStatus: 'LOADING', // LOADING => SUCCESS/ERROR
+    filesRequestError: undefined // specifies the error in case filesRequestStatus is ERROR
+  }
+
+  useFile = file =>
+    this.setState({
+      files: this.state.files.map(
+        item => item === file ? { ...item, used: true } : item
+      )
+    })
+
+  unuseFile = file =>
+    this.setState({
+      files: this.state.files.map(
+        item => item === file ? { ...item, used: false } : item
+      )
+    })
+
+  handleFileCheckboxChange = file => {
+    if (file.used) {
+      this.unuseFile(file)
+    } else {
+      this.useFile(file)
+    }
+  }
+
+  constructor() {
+    super()
+    fetch(AVAILABLE_FILES_ENDPOINT)
+    .then(response => response.json())
+    .then(files => files.map(file => ({ ...file, used: false })))
+    .then(files => this.setState({
+      filesRequestStatus: 'SUCCESS',
+      files,
+    }))
+    .catch(e => this.setState({
+      filesRequestStatus: 'ERROR',
+      filesRequestError: e,
+    }))
+  }
+
   render() {
+    if (this.state.filesRequestStatus === 'LOADING') {
+      return <p>Loading...</p>
+    }
+    if (this.state.filesRequestStatus === 'ERROR') {
+      return <p>An error has occurred while loading the available files:
+        {this.state.filesRequestError.message}</p>
+    }
     return (
       <div className="app">
         <h1>MIP Brain Insights</h1>
@@ -61,8 +114,20 @@ class App extends Component {
             on the region you are viewing.
           </p>
         </section>
+        <form>
+          {this.state.files.map(file => (
+            <label key={file.name}>
+              <input
+                type="checkbox"
+                checked={file.used}
+                onChange={this.handleFileCheckboxChange.bind(this, file)}
+              />
+              {file.name}
+            </label>
+          ))}
+        </form>
         <div className="cleared">
-          <div className="float-left">
+          <div className="col-1-4 float-left">
             <BrainBrowser
               volumes={[{
                 type: 'nifti1',
@@ -71,7 +136,7 @@ class App extends Component {
               onSliceUpdate={console.log}
             />
           </div>
-          <div className="float-right">
+          <div className="col-3-4 float-right">
             <ReactHighcharts config={hc_config} />
           </div>
         </div>
