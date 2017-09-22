@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 /*
 * BrainBrowser: Web-based Neurological Visualization Tools
 * (https://brainbrowser.cbrain.mcgill.ca)

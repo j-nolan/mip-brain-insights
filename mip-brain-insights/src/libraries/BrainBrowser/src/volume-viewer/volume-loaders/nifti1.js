@@ -1,3 +1,4 @@
+/* eslint-disable */
 import '../lib/utils.js'
 import './minc.js'
 

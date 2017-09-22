@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import '../brainbrowser.js'
 import './pako.js'
 import '../lib/utils.js'

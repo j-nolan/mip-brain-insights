@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import '../../volume-viewer.js'
 import '../../lib/loader.js'
 import '../../volume-viewer/lib/display.js'
