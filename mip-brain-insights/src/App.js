@@ -59,6 +59,20 @@ class App extends Component {
     filesRequestError: undefined // specifies the error in case filesRequestStatus is ERROR
   }
 
+  // Fetches the list of available files from the server. The list returned only contains metadata
+  // for each file, such as their names, types and URL. It does not fetch the content of the file.
+  // This must be done using the fetchFileContent method for each file
+  fetchAvailableFiles() {
+    return fetch(AVAILABLE_FILES_ENDPOINT)
+    .then(response => response.json())
+  }
+
+  fetchFileContent(file) {
+    return fetch(file.url)
+    .then(response => response.text())
+    .catch(console.error)
+  }
+
   useFile = file =>
     this.setState({
       files: this.state.files.map(
@@ -83,12 +97,12 @@ class App extends Component {
 
   constructor() {
     super()
-    fetch(AVAILABLE_FILES_ENDPOINT)
-    .then(response => response.json())
-    .then(files => files.map(file => ({ ...file, used: false })))
-    .then(files => this.setState({
+    this.fetchAvailableFiles()
+    .then(availableFiles => availableFiles.map(file => ({ ...file, used: false })))
+    .then(availableFiles => Promise.all(availableFiles.map(this.fetchFileContent)))
+    .then(filesWithContent => this.setState({
       filesRequestStatus: 'SUCCESS',
-      files,
+      files: filesWithContent,
     }))
     .catch(e => this.setState({
       filesRequestStatus: 'ERROR',
