@@ -5,7 +5,7 @@ import './src/volume-viewer/modules/rendering.js'
 import './src/volume-viewer/volume-loaders/nifti1.js'
 
 export default class extends Component {
-  loadVolumes = () => {
+  componentDidMount() {
     window.BrainBrowser.VolumeViewer.start('volume-ui-template', viewer => {
 
       // Load the default color map.
@@ -41,7 +41,7 @@ export default class extends Component {
   render() {
     return (
       // Structure required by Brain Browser
-      <div ref={this.loadVolumes} id="volume-ui-template">
+      <div id="volume-ui-template">
         <div className="volume-viewer-display" />
       </div>
     )
