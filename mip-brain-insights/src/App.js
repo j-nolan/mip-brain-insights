@@ -67,12 +67,15 @@ class App extends Component {
     .then(response => response.json())
   }
 
+  // Fetches the content of a given file by retrieving the "url" property of the file object
   fetchFileContent(file) {
     return fetch(file.url)
     .then(response => response.text())
     .then(content => ({...file, content }))
   }
 
+  // Mark a file as used by the user. This means he wants the file to be taken into account when
+  // displaying charts.
   useFile = file =>
     this.setState({
       files: this.state.files.map(
@@ -80,6 +83,7 @@ class App extends Component {
       )
     })
 
+  // Marks a file as unused (opposite of useFile above)
   unuseFile = file =>
     this.setState({
       files: this.state.files.map(
@@ -87,6 +91,9 @@ class App extends Component {
       )
     })
 
+  // The function that will be called when the user clicks a checkbox associated with a file.
+  // the function checks if the file is currently marked as used. If it is, it marks it as unused.
+  // If it isn't, it marks it as used.
   handleFileCheckboxChange = file => {
     if (file.used) {
       this.unuseFile(file)
@@ -95,12 +102,12 @@ class App extends Component {
     }
   }
 
+
+  // The constructor fetch the list of available files, and for each file, retrieve its content
+  // Mark each file as "used" (because by default, we assume the user uses all the available
+  // files)
   constructor() {
     super()
-
-    // Fetch the list of available file, and for each file, retrieve its content
-    // Mark each file as "used" (because by default, we assume the user uses all the available
-    // files)
     this.fetchAvailableFiles()
     .then(availableFiles => availableFiles.map(file => ({ ...file, used: false })))
     .then(availableFiles => Promise.all(availableFiles.map(this.fetchFileContent)))
