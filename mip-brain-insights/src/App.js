@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import ReactHighcharts from 'react-highcharts'
+import parse from 'csv-parse'
 import BrainBrowser from './libraries/BrainBrowser/index.js'
 import './App.css'
 
@@ -67,11 +68,30 @@ class App extends Component {
     .then(response => response.json())
   }
 
-  // Fetches the content of a given file by retrieving the "url" property of the file object
+  // Fetches the content of a given file by querying the "url" property of the file object
   fetchFileContent(file) {
     return fetch(file.url)
     .then(response => response.text())
-    .then(content => ({...file, content }))
+    .then(rawContent => ({...file, rawContent }))
+  }
+
+  // Parse the content of a file as CSV
+  parseFileAsCSV(file) {
+    const parseOptions = {
+      delimiter: ",",
+      trim: true,
+      columns: true,
+      auto_parse: true
+    }
+    return new Promise((resolve, reject) => {
+      parse(file.rawContent, parseOptions, (err, result) => {
+        if (err) {
+          reject(err)
+          return
+        }
+        resolve({ ...file, content: result })
+      })
+    })
   }
 
   // Mark a file as used by the user. This means he wants the file to be taken into account when
@@ -103,17 +123,18 @@ class App extends Component {
   }
 
 
-  // The constructor fetch the list of available files, and for each file, retrieve its content
-  // Mark each file as "used" (because by default, we assume the user uses all the available
-  // files)
+  // The constructor fetch the list of available files, and for each file, retrieve its content and
+  // parse it.
+  // Mark each file as "used" (because by default, we assume the user uses all the available files)
   constructor() {
     super()
     this.fetchAvailableFiles()
     .then(availableFiles => availableFiles.map(file => ({ ...file, used: false })))
     .then(availableFiles => Promise.all(availableFiles.map(this.fetchFileContent)))
-    .then(filesWithContent => this.setState({
+    .then(filesWithContent => Promise.all(filesWithContent.map(this.parseFileAsCSV)))
+    .then(parsedFiles => this.setState({
       filesRequestStatus: 'SUCCESS',
-      files: filesWithContent,
+      files: parsedFiles,
     }))
     .catch(e => this.setState({
       filesRequestStatus: 'ERROR',
@@ -129,6 +150,7 @@ class App extends Component {
       return <p>An error has occurred while loading the available files:
         {this.state.filesRequestError.message}</p>
     }
+    console.log(this.state)
     return (
       <div className="app">
         <h1>MIP Brain Insights</h1>
