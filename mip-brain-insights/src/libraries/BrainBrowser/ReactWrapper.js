@@ -37,7 +37,7 @@ export default class extends Component {
   }
 
   componentWillUnmount() {
-    this.viewer.removeEventListener('sliceupdate', this.props.onSliceUpdate)
+    this.viewer && this.viewer.removeEventListener('sliceupdate', this.props.onSliceUpdate)
   }
 
   render() {
