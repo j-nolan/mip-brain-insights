@@ -70,7 +70,7 @@ class App extends Component {
   fetchFileContent(file) {
     return fetch(file.url)
     .then(response => response.text())
-    .catch(console.error)
+    .then(content => ({...file, content }))
   }
 
   useFile = file =>
@@ -97,6 +97,10 @@ class App extends Component {
 
   constructor() {
     super()
+
+    // Fetch the list of available file, and for each file, retrieve its content
+    // Mark each file as "used" (because by default, we assume the user uses all the available
+    // files)
     this.fetchAvailableFiles()
     .then(availableFiles => availableFiles.map(file => ({ ...file, used: false })))
     .then(availableFiles => Promise.all(availableFiles.map(this.fetchFileContent)))
