@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
 import ReactHighcharts from 'react-highcharts'
+import HighchartsMore from 'highcharts-more'
 import BrainBrowser from './libraries/BrainBrowser/index.js'
 import BrainInsightsFormatParser from './BrainInsightsFormatParser'
 import './App.css'
+
+HighchartsMore(ReactHighcharts.Highcharts)
 
 // The endpoint that will be queried to access the available files
 const AVAILABLE_FILES_ENDPOINT = 'data/available-files.json'
