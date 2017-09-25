@@ -109,7 +109,7 @@ class App extends Component {
 
     const series = this.state.files
       .filter(file => file.used)
-      .map(file => file.data[selectedRegionName].series)
+      .map(file => file.data[selectedRegionName] ? file.data[selectedRegionName].series : [])
 
     let concatenatedSeries = [].concat.apply([], series)
 
