@@ -27,7 +27,7 @@ import parse from 'csv-parse'
 // - rangeType: if the type of series is a range, describes if it's the min or the max value of
 //              range. If the type is a serie, this field is undefined
 
-const POSSIBLE_FRAGMENT_TYPES = ['series', 'range']
+const POSSIBLE_FRAGMENT_TYPES = ['line', 'arearange']
 const POSSIBLE_RANGE_TYPES = ['min', 'max']
 
 const CSV_PARSE_OPTIONS = {
@@ -52,7 +52,15 @@ class BrainInsightsFormatParser {
     }
 
     const serieName = splittedFragmentDescription[0]
-    const serieType = splittedFragmentDescription[1]
+    let serieType = splittedFragmentDescription[1]
+
+    if (serieType === 'series') {
+      serieType = 'line'
+    }
+    if (serieType === 'range') {
+      serieType = 'arearange'
+    }
+
     let xValue, rangeType
 
     if (POSSIBLE_FRAGMENT_TYPES.indexOf(serieType) === -1) {
@@ -60,16 +68,16 @@ class BrainInsightsFormatParser {
         ${POSSIBLE_FRAGMENT_TYPES.join(',')}`)
     }
 
-    if (serieType === 'series') {
-      xValue = splittedFragmentDescription[2]
+    if (serieType === 'line') {
+      xValue = parseFloat(splittedFragmentDescription[2])
     }
 
-    if (serieType === 'range') {
+    if (serieType === 'arearange') {
       rangeType = splittedFragmentDescription[2]
-      xValue = splittedFragmentDescription[3]
+      xValue = parseFloat(splittedFragmentDescription[3])
     }
 
-    if (serieType === 'range' && POSSIBLE_RANGE_TYPES.indexOf(rangeType) === -1) {
+    if (serieType === 'arearange' && POSSIBLE_RANGE_TYPES.indexOf(rangeType) === -1) {
       throw new Error(`Unknown range type ${rangeType} in ${fragmentDescription}.
         Must be one of ${POSSIBLE_RANGE_TYPES.join(',')}`)
     }
@@ -97,8 +105,8 @@ class BrainInsightsFormatParser {
   toHighchartsSeries() {
     // Parse CSV, parse fragment descriptions and generate series
     return this.parseCSV(this.csvString)
-    .then(fragments => fragments.map(this.parseFragmentDescription))
-    .then(this.fragmentsToHighchartsSeries)
+      .then(fragments => fragments.map(this.parseFragmentDescription))
+      .then(this.fragmentsToHighchartsSeries)
   }
 
   fragmentsToHighchartsSeries(fragments) {
@@ -144,9 +152,9 @@ class BrainInsightsFormatParser {
           dataPoint = [xValue]
           serie.data.push(dataPoint)
         }
-        if (serieType === 'series') {
+        if (serieType === 'line') {
           dataPoint[1] = yValue
-        } else if (serieType === 'range') {
+        } else if (serieType === 'arearange') {
           if (rangeType === 'min') {
             dataPoint[1] = yValue
           } else {
@@ -155,6 +163,9 @@ class BrainInsightsFormatParser {
         }
       })
     })
+    Object.values(brainRegions).forEach(region =>
+      region.series.forEach(serie => serie.data.sort((item1, item2) => item1[0] - item2[0])),
+    )
     return brainRegions
   }
 }
