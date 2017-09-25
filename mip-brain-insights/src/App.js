@@ -3,18 +3,13 @@ import ReactHighcharts from 'react-highcharts'
 import HighchartsMore from 'highcharts-more'
 import BrainBrowser from './libraries/BrainBrowser/index.js'
 import BrainInsightsFormatParser from './BrainInsightsFormatParser'
+import BrainRegionById from './BrainRegionById'
 import './App.css'
 
 HighchartsMore(ReactHighcharts.Highcharts)
 
 // The endpoint that will be queried to access the available files
 const AVAILABLE_FILES_ENDPOINT = 'data/available-files.json'
-
-const highchartsBaseConfig = {
-  title: {
-    text: 'Chart',
-  }
-}
 
 class App extends Component {
   state = {
@@ -68,7 +63,7 @@ class App extends Component {
     super()
     let files
     this.fetchAvailableFiles()
-      .then(availableFiles => availableFiles.map(file => ({ ...file, used: false })))
+      .then(availableFiles => availableFiles.map(file => ({ ...file, used: true })))
       .then(availableFiles => {
         files = availableFiles
         return Promise.all(availableFiles.map(this.fetchFileContent))
@@ -90,6 +85,13 @@ class App extends Component {
       )
   }
 
+  handleSliceUpdate = (e) => {
+    const brainRegionId = e.volume.getIntensityValue()
+    if (this.state.currentSelectedRegionId !== brainRegionId) {
+      this.setState({ currentSelectedRegionId: brainRegionId })
+    }
+  }
+
   render() {
     if (this.state.filesRequestStatus === 'LOADING') {
       return <p>Loading...</p>
@@ -103,9 +105,17 @@ class App extends Component {
       )
     }
 
+    const selectedRegionName = BrainRegionById[this.state.currentSelectedRegionId]
+
+    const series = this.state.files
+      .filter(file => file.used)
+      .map(file => file.data[selectedRegionName].series)
+
+    let concatenatedSeries = [].concat.apply([], series)
+
     const highchartsConfig = {
-      ...highchartsBaseConfig,
-      series: []
+      series: concatenatedSeries,
+      title: { text: selectedRegionName }
     }
 
     return (
@@ -139,6 +149,7 @@ class App extends Component {
                   nii_url: 'models/labels_Neuromorphometrics.nii',
                 },
               ]}
+              onSliceUpdate={this.handleSliceUpdate}
             />
           </div>
           <div className="col-3-4 float-right">
