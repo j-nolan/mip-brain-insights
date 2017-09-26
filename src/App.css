@@ -3,3 +3,21 @@
   margin: auto;
   padding-top: 3em;
 }
+
+.file-selection-form {
+  border: 1px solid #f0f0f0;
+  padding: 3em;
+  margin: 0 0 3em 0;
+}
+
+.file-selection-form h3 {
+  margin-bottom: 0.7em;
+}
+
+.file-selection-form label {
+  margin-right: 2em;
+}
+
+.file-selection-form label input[type="checkbox"] {
+  margin-right: 1em;
+}

@@ -128,7 +128,8 @@ class App extends Component {
             on the region you are viewing.
           </p>
         </section>
-        <form>
+        <form className="file-selection-form">
+          <h3>File selection</h3>
           {this.state.files.map(file => (
             <label key={file.name}>
               <input
