@@ -63,7 +63,6 @@ class App extends Component {
     super()
     let files
     this.fetchAvailableFiles()
-      .then(availableFiles => availableFiles.map(file => ({ ...file, used: true })))
       .then(availableFiles => {
         files = availableFiles
         return Promise.all(availableFiles.map(this.fetchFileContent))
