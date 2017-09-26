@@ -1,4 +1,5 @@
 [
-  {"name": "population-age.csv", "url": "data/population-age-real-data.csv", "type": "csv"},
-  {"name": "georges-and-catherine-age.csv", "url": "data/georges-and-catherine-age.csv", "type": "csv"}
+  {"name": "population-age.csv", "url": "data/population-age-real-data.csv", "type": "csv", "used": true},
+  {"name": "population-age-smooth.csv", "url": "data/population-age-smooth.csv", "type": "csv", "used": false},
+  {"name": "georges-and-catherine-age.csv", "url": "data/georges-and-catherine-age.csv", "type": "csv", "used": true}
 ]
