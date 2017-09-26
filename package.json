@@ -1,0 +1,23 @@
+{
+  "name": "mip-brain-insights",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "csv-parse": "^1.2.3",
+    "gh-pages": "^1.0.0",
+    "highcharts-more": "^0.1.2",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-highcharts": "^12.0.0",
+    "react-scripts": "1.0.12"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+  },
+  "homepage": "https://j-nolan.github.io/mip-brain-insights"
+}

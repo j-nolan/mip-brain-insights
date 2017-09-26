@@ -1,0 +1,37 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Open Sans', sans-serif;
+}
+
+h2 {
+  margin: 0;
+  padding: 0;
+}
+
+.cleared::after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+.float-left {
+  float: left;
+}
+
+.float-right {
+  float: right;
+}
+
+.col-1-4 {
+  width: 24%;
+}
+
+.col-3-4 {
+  width: 74%;
+}
+
+.emphasized-note {
+  padding: 2em;
+  background-color: #F4F4F4;
+}

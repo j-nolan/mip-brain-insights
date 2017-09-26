@@ -1,4 +1,0 @@
-[
-  {"name": "Population-age", "url": "data/population-age-real-data.csv", "type": "csv"},
-  {"name": "Georges-age", "url": "data/george-age.csv", "type": "csv"}
-]
