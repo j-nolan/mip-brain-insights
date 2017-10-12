@@ -36,10 +36,6 @@ export default class extends Component {
     })
   }
 
-  componentWillUnmount() {
-    this.viewer && this.viewer.removeEventListener('sliceupdate', this.props.onSliceUpdate)
-  }
-
   render() {
     return (
       // Structure required by Brain Browser

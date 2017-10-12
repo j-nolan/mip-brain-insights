@@ -21,3 +21,19 @@
 .file-selection-form label input[type="checkbox"] {
   margin-right: 1em;
 }
+
+.dropzone {
+  width: 100%;
+  padding: 1em;
+  border: 1px dashed grey;
+  border-radius: 1em;
+  cursor: pointer;
+}
+
+.dropzone:hover {
+  background-color: #f3f3f3;
+}
+
+.dropzone-active {
+  border: 1px solid #3C70A0;
+}

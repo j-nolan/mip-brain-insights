@@ -9,6 +9,11 @@ h2, h3 {
   padding: 0;
 }
 
+a {
+  color: #3C70A0;
+  text-decoration: none;
+}
+
 .cleared::after {
   content: '';
   display: block;
@@ -29,6 +34,10 @@ h2, h3 {
 
 .col-3-4 {
   width: 74%;
+}
+
+.col-1-2 {
+  width: 49%;
 }
 
 .emphasized-note {
